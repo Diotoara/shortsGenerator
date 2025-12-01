@@ -60,8 +60,8 @@ const Create = () => {
   }
 
   const generateAudioFile=async()=>{
-    // let script = '';
-    let script = `this is the final string of script Alright, listen up, Lois! This is the story of a haunted house... where the ghost wasn't a ghost, but... a really good cook! Yeah, that's right! So, these dumb kids move in, right? Thinking it's all spooky, cobwebs and all that jazz... but then, BAM! Smells of lasagna! They follow the smell... find the ghost-chef, and he's like, 'Wanna taste my meatloaf?' Honestly, what a twist! They eat the meatloaf... it's amazing. Turns out, the house wasn't haunted, just a guy with a culinary obsession and terrible social skills! And the twist? The ghost-chef... he's actually a relative of mine! That explains the cholesterol issues. Heh heh heh. Giggity! `
+    let script = '';
+    script = `Alright, listen up, Lois! This is the story of a haunted house... where the ghost wasn't a ghost, but... a really good cook! Yeah, that's right! So, these dumb kids move in, right? Thinking it's all spooky, cobwebs and all that jazz... but then, BAM! Smells of lasagna! They follow the smell... find the ghost-chef, and he's like, 'Wanna taste my meatloaf?' Honestly, what a twist! They eat the meatloaf... it's amazing. Turns out, the house wasn't haunted, just a guy with a culinary obsession and terrible social skills! And the twist? The ghost-chef... he's actually a relative of mine! That explains the cholesterol issues. Heh heh heh. Giggity! `
     const id = uuidv4();
     // videoScript?.forEach((item:any)=>{
     //   script=script+item?.narration + ' ';

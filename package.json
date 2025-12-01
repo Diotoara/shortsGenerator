@@ -21,6 +21,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
+    "fakeyou": "^0.1.0",
+    "fakeyou.ts": "^3.6.1",
     "fish-audio": "^0.0.3",
     "lucide-react": "^0.555.0",
     "mime": "^4.1.0",
@@ -32,6 +34,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@gradio/client": "^2.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.25",
     "@types/pg": "^8.15.6",
