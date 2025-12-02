@@ -18,6 +18,7 @@ const Create = () => {
   const [formData,setFormData] = useState<form>({topic:"",duration:0,imageStyle:""});
   const [loading, setLoading] = useState(false)
   const [videoScript, setVideoscript] = useState<[]>()
+  const [audioFileUrl, setAudioFileUrl]=useState();
   const onHandleInputChange=async(fieldName : string,fieldValue:string)=>{
     setFormData(prev=>({
       ...prev,
@@ -36,8 +37,9 @@ const Create = () => {
     Follow these rules strictly
     The video must contain scene-by-scene narration script, optimized for ${formData.duration}seconds (${formData.duration} / 5 scenes).
     Each scene must include an AI image prompt that visually matches the narration of that scene.
-    Keep the script tone as if it's being narrated/voiced by Peter Griffin, with his signature sarcastic, goofy, overly-casual satirical delivery.
-    **Use the following image style for all scene prompts:** ${formData.imageStyle}.
+    Do not use special symbols such as exclamation marks, apostrophes, or continuous dots in narration text.
+    Narration must only contain commas and periods as valid symbols.
+   **Use the following image style for all scene prompts:** ${formData.imageStyle}.
     Image prompts should be highly relevant, cinematic, expressive, vivid, and tied to exact story details, not generic or unrelated.
     Script style should be interesting = curiosity driven, unexpected twist, appealing hook, emotional flow.
     Output must be valid JSON only, no additional text outside JSON.
@@ -49,30 +51,31 @@ const Create = () => {
     imagePrompt: (string)
     duration: (seconds)
     The story and visuals should be consistent and related across all scenes with strong logical flow.`
-    console.log({prompt})
     const result = await axios.post('/api/get-video-script',{
       prompt: prompt
     })
-    const myJson = result.data.result.scenes
+    console.log("prompt ready");
+    console.log(result);
+    const myJson = result.data.result.scenes;
     setVideoscript(myJson)
-    generateAudioFile()
-    setLoading(false)
+    generateAudioFile(myJson)
   }
 
-  const generateAudioFile=async()=>{
+  const generateAudioFile=async(videoScript:any)=>{
     let script = '';
-    script = `Alright, listen up, Lois! This is the story of a haunted house... where the ghost wasn't a ghost, but... a really good cook! Yeah, that's right! So, these dumb kids move in, right? Thinking it's all spooky, cobwebs and all that jazz... but then, BAM! Smells of lasagna! They follow the smell... find the ghost-chef, and he's like, 'Wanna taste my meatloaf?' Honestly, what a twist! They eat the meatloaf... it's amazing. Turns out, the house wasn't haunted, just a guy with a culinary obsession and terrible social skills! And the twist? The ghost-chef... he's actually a relative of mine! That explains the cholesterol issues. Heh heh heh. Giggity! `
     const id = uuidv4();
-    // videoScript?.forEach((item:any)=>{
-    //   script=script+item?.narration + ' ';
-    // })
+    console.log("combining the string");
+    videoScript?.forEach((item:any)=>{
+      script=script+item?.narration + ' ';
+    })
     console.log("this is the final string of script",script);
     try {
       const resp = await axios.post('/api/generate-audio',{
         text:script,
         id,
       })
-      console.log("done?: ", resp.data)
+      setAudioFileUrl(resp.data.audioUrl)
+      console.log("audio url : " + audioFileUrl)
     } catch (error) {
       console.log("Error from page : ", error)
     }
@@ -97,8 +100,7 @@ const Create = () => {
         </div>
         {/* create */}
         <Button className='w-full mt-10 text-lg' onClick={()=>{
-          // getVideooScript()
-          generateAudioFile();
+          getVideooScript()
           setLoading(true)
           }} >Create Short</Button>
         </div>

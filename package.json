@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "backend": "start-backend.cmd",
+    "start:all": "concurrently \"npm run backend\" \"npm run dev\""
   },
   "dependencies": {
     "@clerk/nextjs": "^6.35.5",
@@ -19,10 +21,12 @@
     "@radix-ui/react-slot": "^1.2.4",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.8.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
     "fakeyou": "^0.1.0",
     "fakeyou.ts": "^3.6.1",
+    "firebase": "^12.6.0",
     "fish-audio": "^0.0.3",
     "https": "^1.0.0",
     "lucide-react": "^0.555.0",
@@ -41,6 +45,7 @@
     "@types/pg": "^8.15.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.5",
     "prisma": "^7.0.1",

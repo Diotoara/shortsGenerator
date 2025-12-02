@@ -8,7 +8,7 @@ const DashBoardLayout = ({children}:Readonly<{children: React.ReactNode;}>) => {
         <Sidebar/>
       </div>
       <div>
-        <div className=" fixed w-full" >
+        <div className="z-1 fixed w-full" >
           <Header/>
         </div>
         <div className="md:ml-64 pt-16 h-screen bg-linear-to-b from-[#89fffd] to-[#ffffff]" >
