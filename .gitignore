@@ -1,5 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+
+backend/.venv/
+backend/.venv
+.venv/
+.vnv
+backend/.venv/Lib/site-packages/*
+backend/.venv/Lib/site-packages/**/*.db
+backend/.venv/Lib/site-packages/**/*.dll
+backend/.venv/Lib/site-packages/**/*.dic
+
 # dependencies
 /node_modules
 /.pnp
