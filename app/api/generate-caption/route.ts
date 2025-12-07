@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { AssemblyAI } from "assemblyai";
 
 export async function POST(req:NextRequest){
-
     try {
         const {audioFileUrl} = await req.json();
         const client = new AssemblyAI({
@@ -17,7 +16,6 @@ export async function POST(req:NextRequest){
         };
     
         const transcript = await client.transcripts.transcribe(params);
-        console.log(transcript.text);
     
         return NextResponse.json({
             'result' : transcript.words

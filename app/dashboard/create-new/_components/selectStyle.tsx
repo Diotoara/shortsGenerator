@@ -17,7 +17,7 @@ const SelectStyle = ({onUserSelect} : {onUserSelect : OnUserSelect}) => {
             image:'/mangaa.jpg'
         },
         {
-            name:'water color',
+            name:'Neon',
             image:'/watercolor.jpg'
         },
         {

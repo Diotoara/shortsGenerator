@@ -13,7 +13,7 @@ export const streamConfig = {
   tools,
 };
 
-export const geminiModel = 'gemini-2.0-flash-lite';
+export const geminiModel = 'gemini-2.0-flash';
 
 // ✅ Export a function that generates stream from a prompt
 export async function runGeminiStream(prompt: string) {
@@ -31,11 +31,9 @@ export async function runGeminiStream(prompt: string) {
         });
         console.log("response came")
         return response
-    } catch (error) {
-      console.log("error in model")
-  }
-  
-  
+    } catch (error:any) {
+      console.log("error in model", error.message)
+  } 
   
 }
   

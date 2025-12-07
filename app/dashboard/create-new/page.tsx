@@ -19,6 +19,25 @@ const Create = () => {
   const [loading, setLoading] = useState(false)
   const [videoScript, setVideoscript] = useState<[]>()
   const [audioFileUrl, setAudioFileUrl]=useState();
+  const [caption, setCaption] = useState();
+  const [imageList, setImageList] = useState([]);
+
+  const vidSCRIPT:any = [
+  {
+    sceneNumber: 9,
+    narration: "Greatness doesn't arrive in a single moment—it's crafted quietly, in the hours nobody sees.",
+    imagePrompt: "Watercolor painting style; soft pastel tones, gentle brush strokes, character sitting by a window journaling as sunlight diffuses through sheer curtains.",
+    duration: 4
+  },
+  {
+    sceneNumber: 10,
+    narration: "When the world feels overwhelming, remember—your calm mind is your strongest weapon.",
+    imagePrompt: "Low-poly 3D art style; geometric mountains and trees, character meditating on a cliff edge, sunrise made of polygon gradients.",
+    duration: 4
+  }
+]
+
+
   const onHandleInputChange=async(fieldName : string,fieldValue:string)=>{
     setFormData(prev=>({
       ...prev,
@@ -28,7 +47,11 @@ const Create = () => {
   useEffect(() => {
     console.log(formData);
     console.log( "this is the entitre post: ", videoScript)
-  }, [formData, videoScript]);
+    if (imageList.length > 0) {
+            console.log("✅ STATE UPDATE CONFIRMED:", imageList);
+            console.log("Total images in state:", imageList.length);
+        }
+  }, [formData, videoScript, imageList]);
 
 
   const getVideooScript=async()=>{
@@ -75,12 +98,53 @@ const Create = () => {
         id,
       })
       setAudioFileUrl(resp.data.audioUrl)
-      console.log("audio url : " + audioFileUrl)
+      console.log("audio url : " + resp.data.audioUrl)
+      resp.data.audioUrl&&await generateAudioCaption(resp.data.audioUrl)
     } catch (error) {
-      console.log("Error from page : ", error)
+      console.log("Error while generating audio from page : ", error)
     }
-    setLoading(false)
   }
+
+  const generateAudioCaption=async(audioFileUrl:any)=>{
+    try {
+      const resp = await axios.post('/api/generate-caption',{
+        audioFileUrl
+      })
+      console.log(resp.data.result)
+      setCaption(resp?.data?.result)
+      resp.data.result&&videoScript&&GenerateImage(videoScript);
+    } catch (error) {
+      console.log("error in generating caption : " + error)
+    }
+  } 
+
+  const GenerateImage = async (videoScript: any) => {
+      const imagePromises = videoScript?.map(async (element: any) => {
+          const id = uuidv4();
+          const resp = await axios.post('/api/generate-image', {
+              prompt: element?.imagePrompt,
+              id: id
+          });
+          console.log(resp.data.result);
+          return resp.data.result;
+      });
+      let images:any = [];
+      try {
+          const results = await Promise.all(imagePromises || []);
+          images = results.filter(result => result != null);
+          setImageList(images)
+          console.log("Successfully generated and collected images.");
+
+      } catch (error) {
+          console.error("Error in generating image batch:", error);
+      }
+      finally {
+          console.log("all image generated", imageList);
+          setLoading(false);
+      }
+      
+  };
+
 
   return (
     <div className='pt-4 md:px-20 pb-10'>
@@ -101,6 +165,7 @@ const Create = () => {
         {/* create */}
         <Button className='w-full mt-10 text-lg' onClick={()=>{
           getVideooScript()
+          // GenerateImage(vidSCRIPT);
           setLoading(true)
           }} >Create Short</Button>
         </div>

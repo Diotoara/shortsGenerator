@@ -2,8 +2,8 @@ import {runGeminiStream } from "@/lib/Aimodel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest){
+    const {prompt} = await req.json();
     try {
-        const {prompt} = await req.json();
         console.log(prompt);
 
             const result:any = await runGeminiStream(prompt)
