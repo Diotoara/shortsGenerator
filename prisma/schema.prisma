@@ -19,3 +19,12 @@ model User{
   email String @unique
   imageUrl String?
 }
+
+model VideoProject{
+  id String @id @default(uuid())
+  script Json
+  audioUrl String
+  caption Json
+  imageUrls String[]
+  createdBy String
+}

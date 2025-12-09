@@ -9,6 +9,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
+
 export async function POST(req:NextRequest) {
   const {text,id} = await req.json();
   try {
