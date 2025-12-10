@@ -1,17 +1,9 @@
 import { prisma } from '@/lib/prisma';
-import { useUser } from '@clerk/nextjs';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-    const {user} = useUser();
+export async function POST(req: NextRequest) {
 
-    // Deconstruct the data sent from the frontend
-    const { 
-        script, 
-        audioUrl, 
-        caption, 
-        imageUrls 
-    } = req.body;
+    const {script, audioUrl, caption, imageUrls, user } = await req.json();
 
     try {   
         const newProject = await prisma.videoProject.create({
@@ -21,18 +13,23 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
                 caption, // Prisma handles mapping JS object to JSON type
                 imageUrls,
                 createdBy : user?.primaryEmailAddress?.emailAddress || ""
+                // createdBy : user
             },
         });
-        return res.status(200).json({ 
+        return NextResponse.json({ 
             message: 'Video project saved successfully',
             projectId: newProject.id 
+        },{
+            status:200
         });
 
     } catch (error) {
         console.error('Prisma Save Error:', error);
-        return res.status(500).json({ 
+        return NextResponse.json({ 
             message: 'Failed to save video project',
             error: error
+        },{
+            status:411,
         });
     }
 }

@@ -7,6 +7,7 @@ import SelectDuration from './_components/selectDuration';
 import { Button } from '@/components/ui/button';
 import CustomLoading from "./_components/CustomLoading";
 import {v4 as uuidv4} from 'uuid'
+import { useUser } from "@clerk/nextjs";
 
 
 type form = {
@@ -41,12 +42,15 @@ const Create = () => {
 
   // --- Core Functions ---
 
+  const {user} = useUser();
   const saveToDatabase = async (videoScript: any, audioFileUrl: string, caption: any, imageList: any) => {
+    console.log("runnin this")
     const dataToSave = {
       script: videoScript,
       audioUrl: audioFileUrl,
       caption: caption,
       imageUrls: imageList,
+      user : user,
     }
     console.log("Attempting to save data to database:", dataToSave);
     try {
@@ -205,6 +209,61 @@ const Create = () => {
     }
   };
 
+//     const Fakedata = {
+//   "script": {
+//     "duration": 20,
+//     "topic": "A boy discovering a magical forest",
+//     "scenes": [
+//       {
+//         "sceneNumber": 1,
+//         "narration": "A young boy wanders into a glowing forest as fireflies light the path.",
+//         "imagePrompt": "A magical glowing forest, fireflies, soft neon ambience, fantasy artwork",
+//         "duration": 4
+//       },
+//       {
+//         "sceneNumber": 2,
+//         "narration": "He discovers a floating crystal emitting warm light.",
+//         "imagePrompt": "A floating crystal in the center of a mystical forest, cinematic lighting",
+//         "duration": 4
+//       },
+//       {
+//         "sceneNumber": 3,
+//         "narration": "The crystal shows him visions of hidden worlds.",
+//         "imagePrompt": "A crystal projecting holographic visions, cosmic colors, surreal art",
+//         "duration": 4
+//       },
+//       {
+//         "sceneNumber": 4,
+//         "narration": "Creatures of the forest gather around, watching curiously.",
+//         "imagePrompt": "Cute fantasy creatures in a bright forest clearing, whimsical style",
+//         "duration": 4
+//       },
+//       {
+//         "sceneNumber": 5,
+//         "narration": "The boy smiles as the forest accepts him as its new friend.",
+//         "imagePrompt": "A boy smiling in a glowing forest surrounded by magical energy",
+//         "duration": 4
+//       }
+//     ]
+//   },
+//   "audioUrl": "https://example.com/audio/demo-audio.mp3",
+//   "caption": [
+//     { "start": 0, "end": 4, "text": "A young boy wanders into a glowing forest." },
+//     { "start": 4, "end": 8, "text": "He discovers a floating crystal of light." },
+//     { "start": 8, "end": 12, "text": "The crystal reveals visions of hidden worlds." },
+//     { "start": 12, "end": 16, "text": "Forest creatures gather around him." },
+//     { "start": 16, "end": 20, "text": "He becomes a friend of the magical forest." }
+//   ],
+//   "imageUrls": [
+//     "https://example.com/images/scene1.png",
+//     "https://example.com/images/scene2.png",
+//     "https://example.com/images/scene3.png",
+//     "https://example.com/images/scene4.png",
+//     "https://example.com/images/scene5.png"
+//   ],
+//   "user": "demo-user-123"
+// }
+
 
   // --- UI Render ---
 
@@ -229,6 +288,7 @@ const Create = () => {
             // Start the process and set loading
             setLoading(true)
             getVideooScript()
+            // saveToDatabase(Fakedata.script, Fakedata.audioUrl, Fakedata.caption, Fakedata.imageUrls,); 
           }} >Create Short</Button>
         </div>
       </div>
@@ -239,6 +299,10 @@ const Create = () => {
 }
 
 export default Create
+
+
+
+// id : 6571134a-28ea-47d6-be91-790101413f91
 
 
 // "use client"
