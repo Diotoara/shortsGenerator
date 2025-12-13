@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "Subscription" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "credits" INTEGER NOT NULL DEFAULT 20;

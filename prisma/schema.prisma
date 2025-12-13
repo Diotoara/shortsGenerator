@@ -18,6 +18,8 @@ model User{
   name String
   email String @unique
   imageUrl String?
+  Subscription Boolean @default(false)
+  credits Int @default(20)
 }
 
 model VideoProject{
